@@ -11,10 +11,8 @@ public class IntakeIn extends Command {
 
     public IntakeIn() {
         requires(Robot.intake);
-        
         setInterruptible(true);
     }
-
     // Called just before this Command runs the first time
     protected void initialize() {}
 
@@ -22,17 +20,14 @@ public class IntakeIn extends Command {
     protected void execute() {
     	Robot.intake.intakeIn();
     }
-
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-       return true;// TODO Fix for buttons
+       return isTimedOut();// TODO Fix for buttons
     }
-
     // Called once after isFinished returns true
     protected void end() {
     	Robot.intake.stop();
     }
-
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {

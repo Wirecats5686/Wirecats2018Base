@@ -3,22 +3,23 @@ package org.usfirst.frc.team5686.robot.subsystems;
 import org.usfirst.frc.team5686.robot.RobotMap;
 import org.usfirst.frc.team5686.robot.commands.TankDrive;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The robot's drivetrain
  */
 public class DriveTrain extends Subsystem {
-	private static RobotDrive drive;
+	private static DifferentialDrive drive;
 	
-	private CANTalon rightFront;
-	private CANTalon rightRear;
-	private CANTalon leftFront;
-	private CANTalon leftRear;
+	private WPI_TalonSRX rightFront;
+	private WPI_TalonSRX rightRear;
+	private WPI_TalonSRX leftFront;
+	private WPI_TalonSRX leftRear;
 	
 	// tune these to adjust it so the joysticks act the same
 	private static final double BIAS_MULTIPLIER_RIGHT = 1;
@@ -30,12 +31,14 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain(){
 		super("DriveTrain");
 		
-		rightFront = new CANTalon(RobotMap.rightFrontDrive);
-		rightRear = new CANTalon(RobotMap.rightRearDrive);
-		leftFront = new CANTalon(RobotMap.leftFrontDrive);
-		leftRear = new CANTalon(RobotMap.leftRearDrive);
+		rightFront = new WPI_TalonSRX(RobotMap.rightFrontDrive);
+		rightRear = new WPI_TalonSRX(RobotMap.rightRearDrive);
+		leftFront = new WPI_TalonSRX(RobotMap.leftFrontDrive);
+		leftRear = new WPI_TalonSRX(RobotMap.leftRearDrive);
+		SpeedControllerGroup m_left = new SpeedControllerGroup (leftFront, leftRear);
+		SpeedControllerGroup m_right = new SpeedControllerGroup (rightFront, rightRear);
 		
-		drive = new RobotDrive(leftFront, leftRear, rightFront, rightRear);
+		drive = new DifferentialDrive(m_left, m_right);
 	}
 	
 	public void initDefaultCommand() {
@@ -55,7 +58,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void stop() {
-		drive.drive(0, 0);
+		drive.tankDrive(0, 0);
 	}
 }
 

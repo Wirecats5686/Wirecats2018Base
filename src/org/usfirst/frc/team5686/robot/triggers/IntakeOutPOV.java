@@ -10,6 +10,6 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 public class IntakeOutPOV extends Trigger {
     
     public boolean get() {
-        return Robot.oi.getXboxController().getPOV() == 0;
+        return Robot.oi.getlogitechController().getPOV() == 0;
     }
 }
